@@ -1,5 +1,5 @@
 var http = require('http');
-
+var fs = require('fs');
 
 function createList() {
   var liste = [];
@@ -22,10 +22,45 @@ function createReponse(){
 	return tableau;
 }
 
-
+function createRequete(){
+	var tableau = {};
+	tableau['requete'] = {'quoi':'resto','ou':'rennes'};
+	
+	return tableau;
+}
 
 var server = http.createServer(function(req, res) {
-    res.writeHead(200, {"Content-Type": "text/html"});
-    res.end(JSON.stringify(createReponse()));
+
+	console.log(req.url);
+
+	if(req.url == '/api/requete'){
+		res.writeHead(200, {"Content-Type": "text/html"});
+    	res.end(JSON.stringify(createRequete()));
+	}
+    else if(req.url == '/api/points'){
+
+    	res.writeHead(200, {"Content-Type": "application/json"});
+    	res.end(JSON.stringify(createReponse()));
+	}
+	 else if(req.url == '/'){
+		fichier = req.url.substr(1);
+		console.log(fichier);
+		 fs.readFile('index.html',function (err, data){
+	        res.writeHead(200, {'Content-Type': 'text/html','Content-Length':data.length});
+	        res.write(data);
+	        res.end();
+	    });
+
+	}
+	else{
+		fichier = req.url.substr(1);
+		console.log(fichier);
+		 fs.readFile(fichier,function (err, data){
+	        res.writeHead(200, {'Content-Type': 'text/html','Content-Length':data.length});
+	        res.write(data);
+	        res.end();
+	    });
+
+	}
 });
 server.listen(3000);
