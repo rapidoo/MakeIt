@@ -24,7 +24,11 @@ function createReponse(){
 
 function createRequete(){
 	var tableau = {};
-	tableau['requete'] = {'quoi':'resto','ou':'rennes'};
+	var alea = Math.floor(Math.random()*10000);
+	console.log(alea);
+	var quoi = 'resto'+alea;
+	var ou = 'Rennes'+alea;
+	tableau['requete'] = {'quoi':quoi,'ou':ou, 'timestamp':Date.now()};
 	
 	return tableau;
 }
@@ -51,6 +55,10 @@ var server = http.createServer(function(req, res) {
 	        res.end();
 	    });
 
+	}
+	else if(req.url == '/favicon.ico'){
+		res.writeHead(404, {'Content-Type': 'text/html','Content-Length':0});
+	    res.end();
 	}
 	else{
 		fichier = req.url.substr(1);
