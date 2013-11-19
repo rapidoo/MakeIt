@@ -3,61 +3,104 @@ from pymongo import MongoClient
 
 import random
 import time
+from datetime import datetime
+from datetime import timedelta
 import bottle
 from bottle import route, run, template
 from bottle import static_file
 
-@route('/')
-def index():
-    return static_file("index.html", root='/home/ldapusers/flebris/MakeIt/') 
+@route('/<filename>')
+def index(filename):
+    return static_file(filename, root='/home/bia/MakeIt') 
+
+@route('/static/<filename>')
+def server_static(filename):
+    return static_file(filename, root='/home/bia/MakeIt/static')
+
 
 
 @route('/api/marker')
 def marker():
     return createMarker()
 
-@route('/api/requete')
-def requete():
-    return createRequete()
+@route('/api/compteur')
+def compteur():
+    return createCompteur()
+
+@route('/api/vertical')
+def compteur():
+    return createVertical()
 
 
-@route('/static/<filename>')
-def server_static(filename):
-    return static_file(filename, root='/home/ldapusers/flebris/MakeIt/static')
-
-def createRequete():
-	tableau = {};
-        alea = random.randint(1, 100000);
-        quoi = "resto%i " % alea;
-        ou = "Rennes%i " % alea;
-	print quoi, ou;
-        tableau['requete'] = {'quoi':quoi,'ou':ou, 'timestamp':time.time()};
-
-        return tableau;
 
 def createMarker():
-	res = col.find({}, {'_id':0})
+	
+	datenow = datetime.now()
+	dateplusone = datenow + timedelta(seconds=1)
+	formatString = "T%H:%M:%S"
+	dateString="2013-11-16"
+	dateDebut = dateString+datenow.strftime(formatString)
+	dateFin = dateString+dateplusone.strftime(formatString)
 
-	alea = random.random();
-	objet = res[0]
+	query = {'date_ts': { '$gt': dateDebut, '$lt': dateFin}}
 
-	lg =  str(alea+float(res[0]['requete']['longitude'])-5)
-	lat =  str(alea+float(res[0]['requete']['latitude']))
+	res = col.find(query, {'_id':0})
 
-	objet['requete']['longitude'] = lg
-	objet['requete']['latitude'] = lat
+	listObject = []
+	for i in res:
+		listObject.append(i) 
+
+	objet = {}
+	objet['requete']=listObject
 
 	return objet
+
+def createCompteur():
+
+        datenow = datetime.now()
+        formatString = "T%H:%M:%S"
+        dateString="2013-11-16"
+        dateDebut = dateString+datenow.strftime(formatString)
+
+        query = {'date_ts': { '$lt': dateDebut}}
+
+        res = col.find(query).count()
+
+	retour = {}
+	retour['total']=res
+	retour['date']=dateDebut
+	print retour
+        return retour
+
+def createVertical():
+
+	datenow = datetime.now()
+        dateplusone = datenow + timedelta(seconds=1)
+        formatString = "T%H:%M:%S"
+        dateString="2013-11-16"
+        dateDebut = dateString+datenow.strftime(formatString)
+        dateFin = dateString+dateplusone.strftime(formatString)
+
+	query = [{'$match' :{'date_ts': {'$gt': dateDebut, '$lt': dateFin }}} ,{'$group':{'_id':'$verticales', 'count':{'$sum':1}}}]
+
+	print query
+#	db.recherches.aggregate([{$match :{'date_ts': {'$gt': '2013-11-16T15:32:25', '$lt': '2013-11-16T15:32:26'}}} ,{$group:{"_id":"$verticales", "count":{"$sum":1}}}])
+	
+        res = col.aggregate(query)
+
+        return res
+
+
 
 
 client = MongoClient('mongodb://aladin:aladin@mongo02t.bbo1t.local:27028/perfAladinDB')
 
 db = client.perfAladinDB
-col = db.requete
-
+col = db.recherches
 
 bottle.debug(True)
 run(host='bigdata04t.bbo1t.local', port=8080)
+
 
 
 
