@@ -22,7 +22,7 @@
     </style>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBDtF90e6_EaEKq_XEWsECavcyOndcfDuY&v=3.exp&sensor=false"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0/angular.min.js"></script>
-     <script src="project.js"></script>
+     <script src="static/project.js"></script>
     <script>
 // If you're adding a number of markers, you may want to
 // drop them on the map consecutively rather than all at once.
@@ -32,20 +32,23 @@
 var berlin = new google.maps.LatLng(47, 1.5);
 
 
-var neighborhoods = [
-  new google.maps.LatLng(47, 1.5),
-  ];
+var neighborhoods = [];
 suite();
 
 function createPoint() {
-  var XOrigin = 43+Math.random()*8;
-  var YOrigin = Math.random()*8-1;
+  var XOrigin =45 ;
+//  var XOrigin = $scope.latitude;
+//alert (latitude);
+  var YOrigin = 1 ;
+//  var YOrigin = $scope.longitude ;
+
+//  console.log( angular.element(document.querySelector( '#panel' ) ).scope.latitude);
 
   return new google.maps.LatLng(XOrigin, YOrigin)
 }
 
 function suite() {
-  for (var i = 0; i < 100; i++) {
+  for (var i = 0; i < 1; i++) {
     neighborhoods.push(createPoint());
   }
   ite++;
@@ -61,7 +64,7 @@ var map;
 
 var image = {
     // Adresse de l'icône personnalisée
-    url: '32px-Red_Point.gif',
+    url: 'static/32px-Red_Point.gif',
     // Taille de l'icône personnalisée
     size: new google.maps.Size(25, 25),
     // Origine de l'image, souvent (0, 0)
@@ -82,18 +85,15 @@ function initialize() {
 }
 
 function drop() {
-  console.log(neighborhoods.length)
-   for (var i = ite; i < (ite+100); i++) {
+   for (var i = ite; i < (ite+1); i++) {
       setTimeout(function() {
         addMarker();
         delMarker();
       }, i*50);
   }
-  console.log("fin Drop")
 }
 
 function follow(){
- console.log("debut follow") 
   suite();
   drop();
 }
@@ -120,7 +120,7 @@ google.maps.event.addDomListener(window, 'load', initialize);
     </script>
   </head>
   <body>
-    <div id="panel" style="margin-left: -52px">
+    <div id="boutons" style="margin-left: -52px">
       <button id="drop" onclick="drop()">Drop Markers</button>
       <button id="suite" onclick="follow()">AddList</button>
       
