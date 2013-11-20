@@ -1,0 +1,19 @@
+<script src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
+<script type="text/javascript">
+$(function() {
+  function getData() {
+	$.get("http://bigdata04t.bbo1t.local:8080/api/marker", function(data) {
+		$("body").append("data: " + data);
+		console.log(data);
+	}, "json" );
+  }
+  setInterval(getData, 1000);
+});
+
+$(document).ready(getData());
+</script>
+<html>
+<body>
+<div id="map" style="width: 100%; height: 600px"></div>
+</body>
+</html>
