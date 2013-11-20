@@ -86,11 +86,25 @@
     <script>
 
 //hightchart !
+default_series = [
+                { name: "B2B", data: [0] },
+                { name: "COMMERCE", data: [0] },
+                { name: "MAISON", data: [0] },
+                { name: "PUBLIC", data: [0] },
+                { name: "SERVICE", data: [0] }
+                ];
+
 
 $(function () {
         $('#vertical').highcharts({
             chart: {
-                type: 'column'
+                type: 'column',
+	   	chart: {
+            		animation: {
+                		duration: 1000,
+                		easing: 'swing'
+            		}
+        	}
             },
             title: {
                 text: ''            
@@ -115,36 +129,13 @@ $(function () {
                 shared: true,
                 useHTML: true
             },
-//	    colors: {
-//		['#CDDDE8', '#4A768B', '#99B0BF', '#FDDB56', '#000000']
-//	    },
             plotOptions: {
                 column: {
                     pointPadding: 0.2,
                     borderWidth: 0
                 }
             },
-            series: [{
-                name: 'SERVICE',
-                data: [11]
-    
-            }, {
-                name: 'COMMERCE',
-                data: [31]
-    
-            }, {
-                name: 'PUBLIC',
-                data: [20]
-    
-            }, {
-                name: 'MAISON',
-                data: [8]
-    
-            }, {
-                name: 'B2B',
-                data: [16]
-    
-            }]
+            series: default_series 
         });
     });
     
@@ -164,7 +155,13 @@ Highcharts.theme = {
             [1, 'rgba(255, 255, 255, 0)']
          ]
       },
-      plotBorderWidth: 1
+      plotBorderWidth: 1,
+	 chart: {
+            animation: {
+                duration: 1000,
+                easing: 'easeOutBounce'
+            }
+        }
 
    },
 	plotOptions : {
@@ -172,9 +169,10 @@ Highcharts.theme = {
 				borderWidth : 0,
 				borderRadius : 15 
 			},
-	        series: {
-	            pointWidth: 30
-	        }
+		        series: {
+	        	   	 pointWidth: 30
+	        	}
+
 	},
    title: {
       style: {
@@ -207,6 +205,7 @@ Highcharts.theme = {
    },
    yAxis: {
       alternateGridColor: 'rgba(255, 255, 255, .5)',
+	max:10,
       lineColor: '#C0D0E0',
       tickColor: '#C0D0E0',
       tickWidth: 1,
@@ -246,6 +245,30 @@ Highcharts.theme = {
 var highchartsOptions = Highcharts.setOptions(Highcharts.theme);
 
     </script>
+
+<script>
+//$(document).ready(function() {
+function getData() {
+        var chart = $('#vertical').highcharts();
+        //chart.series[1].setData(series_api, true);
+        //series_api = default_series;
+        $.get("/api/vertical", function(data) {
+                $.each(data.result, function(i, data_item) {
+                        $.each(default_series, function(j, series_item) {
+                                if (data_item._id == series_item.name) {
+                                        //console.log("i:" + i);
+                                        //console.log(data_item._id);
+                                        //console.log(data_item.count);
+                                        //console.log("j:" + j);
+                                        chart.series[j].setData([ data.result[i].count ]);
+					}
+                                });
+                        });
+                });
+};
+setInterval(getData, 1000);
+</script>
+
 
   </head>
   <body>
