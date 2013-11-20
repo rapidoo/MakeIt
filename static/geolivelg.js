@@ -1,5 +1,5 @@
 
-var delay = 5;
+var delay = 60;
 
 default_series = [
 	{ name: "B2B", data: [0] },
@@ -60,24 +60,17 @@ function update_map() {
         $.get("/api/marker", function(data) {
 		// update last request
 		if (data.requete[0].ou=="") ou="France"; else ou=data.requete[0].ou;
-		requestLabel = data.requete[0].quiquoi + " / " + ou;
-		if (requests[0].label!=requestLabel) {
-			requests.unshift({ label: requestLabel, service: data.requete[0].service });
-			requests.pop();
-		}
-		popupAttr = null;
-		popupIndex = Math.floor((Math.random()*data.requete.length));
-		while (data.requete[popupIndex].quiquoi == "") popupIndex = Math.floor((Math.random()*data.requete.length));
-		popupAttr = { label: data.requete[popupIndex].quiquoi, lat: data.requete[popupIndex].latitude, lng: data.requete[popupIndex].longitude };
+		requests.unshift({ label: data.requete[0].quiquoi + " / " + ou, service: data.requete[0].service });
+		requests.pop();
                 $.each(data.requete, function(i, item) {
-			features.push({
-                       		"type" : "Feature",
-                       		"properties" : {
-                               		"time": item.date_ts },
-                       		"geometry" : {
-                               		"type" : "Point",
-                               		"coordinates" : [ item.longitude, item.latitude, 1 ] }
-                       	});
+                    features.push({
+                        "type" : "Feature",
+                        "properties" : {
+                                "time": item.date_ts },
+                        "geometry" : {
+                                "type" : "Point",
+                                "coordinates" : [ item.longitude, item.latitude, 1 ] }
+                        });
                 });
                 var layer = L.geoJson(
 			{ "type" : "FeatureCollection", "features": features },
@@ -86,11 +79,6 @@ function update_map() {
 			}});
                 layers.push(layer);
                 layer.addTo(map);
-		//var divIcon = L.divIcon({className: "popup", html: popupAttr.label});
-		//var marker = L.marker([popupAttr.lat, popupAttr.lng], {icon: divIcon});
-		marker = L.popup().setLatLng([popupAttr.lat, popupAttr.lng]).setContent(popupAttr.label);
-                layers.push(marker);
-                marker.addTo(map);
 	}, "json" );
 };
 
@@ -105,11 +93,9 @@ function update_request() {
 };
 
 function removeLayer() {
-	while (layers.length>(delay*2)) {
+	while (layers.length>delay) {
                 var layer = layers.shift();
-		var popup = layers.shift();
                 map.removeLayer(layer);
-                map.removeLayer(popup);
                 layers[0].setStyle({ "opacity": 0.15 });
         }
 };
