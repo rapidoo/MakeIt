@@ -59,8 +59,11 @@ function update_map() {
 
         $.get("/api/marker", function(data) {
 		// update last request
-		if (data.requete[0].ou=="") ou="France"; else ou=data.requete[0].ou;
-		requestLabel = data.requete[0].quiquoi + " / " + ou;
+		requestLabel = null;
+		requestIndex = Math.floor((Math.random()*data.requete.length));
+		while (data.requete[requestIndex].quiquoi == "") requestIndex = Math.floor((Math.random()*data.requete.length));
+		if (data.requete[requestIndex].ou=="") ou="France"; else ou=data.requete[requestIndex].ou;
+		requestLabel = data.requete[requestIndex].quiquoi + " / " + ou;
 		if (requests[0].label!=requestLabel) {
 			requests.unshift({ label: requestLabel, service: data.requete[0].service });
 			requests.pop();
