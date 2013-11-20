@@ -15,16 +15,27 @@ var requests = [ { label: "", service: 1 },
 		 { label: "", service: 1 },
 		 { label: "", service: 1 } ];
 
+function formatNumber(number)
+{
+    x = number+'';
+    var rgx = /(\d+)(\d{3})/;
+    while (rgx.test(x)) {
+        x = x.replace(rgx, '$1' + ' ' + '$2');
+    }
+    return x;
+};
+
 function update_compteur() {
         $.get("/api/compteur", function(data) {
-                $('.compteur').text(data.total);
+                $('.compteur').text(formatNumber(data.total));
         });
 };
 
 function update_verticale() {
         var chart = $('#vertical').highcharts();
         $.get("/api/vertical", function(data) {
-                //$.each(default_series, function(j, series_item) { chart.series[j].data[0].update([ 0 ]); });
+		// reset empty id
+                // $.each(default_series, function(j, series_item) { chart.series[j].data[0].update([ 0 ]); });
                 $.each(data.result, function(i, data_item) {
                         $.each(default_series, function(j, series_item) {
                                 if (data_item._id == series_item.name) {
@@ -48,7 +59,8 @@ function update_map() {
 
         $.get("/api/marker", function(data) {
 		// update last request
-		requests.unshift({ label: data.requete[0].quiquoi + " / " + data.requete[0].ou, service: data.requete[0].service });
+		if (data.requete[0].ou=="") ou="France"; else ou=data.requete[0].ou;
+		requests.unshift({ label: data.requete[0].quiquoi + " / " + ou, service: data.requete[0].service });
 		requests.pop();
                 $.each(data.requete, function(i, item) {
                     features.push({
