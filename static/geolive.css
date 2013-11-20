@@ -1,0 +1,68 @@
+      .leftStyle {
+        display: table-cell;
+        width:400px;
+        height:600px;
+        border:1px;
+      }
+      .rightStyle {
+        display: table-cell;
+        width:800px;
+        height:800px;
+        border:1px;
+      }
+      .chapitre {
+      
+       color: #336699;
+      }
+      .jaunes{
+        background: #FDDB56;
+        width: 350px;
+        height: 20px;
+        font-size: 16px;
+        list-style-type: none; 
+        border:1px solid #4A758B;
+        //border-color: white;
+        margin: 5px;
+        padding: 5px;
+        position:relative;
+        left:-35px;
+        color: #333333;
+        font-size: 14px; 
+        font-family: Arial;
+      }
+      .blanc{
+        background: white;
+        width: 350px;
+        height: 20px;
+        font-size: 16px;
+        list-style-type: none; 
+        border:1px solid #4A758B;
+        //border-color: white;
+        margin: 5px;
+        padding: 5px;
+        position:relative;
+        left:-35px;
+        color: black;
+        color: #333333;
+        font-size: 14px; 
+        font-family: Arial;
+      }
+      .compteur{
+        font-size: 24px;
+        text-align: center;
+        vertical-align:middle;
+        width: 240px;
+        height: 30px;
+        position:relative;
+        left:30px;
+        color: #4A758B;
+        font-family: Arial;
+        font-size: 24px;
+        font-weight: bold;
+        border:2px solid #4A758B;
+        border-radius: 5px;
+        position:relative;
+        left:75px;
+        padding-top: px;
+
+      }
