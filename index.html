@@ -197,10 +197,13 @@ setInterval(getData, 1000);
     <div id="map" class="rightStyle"></div>
 <script type="text/javascript">
              map = L.map('map').setView([46, 3],6);
-             var tileLayer = L.tileLayer('http://{s}.tile.cloudmade.com/BC9A493B41014CAABB98F0471D759707/997/256/{z}/{x}/{y}.png', {
-                 maxZoom: 18,
-                 attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://cloudmade.com">CloudMade</a>'
-             }).addTo(map);
+ var Acetate_terrain = L.tileLayer('http://a{s}.acetate.geoiq.com/tiles/terrain/{z}/{x}/{y}.png', {
+        attribution: '&copy;2012 Esri & Stamen, Data from OSM and Natural Earth',
+        subdomains: '0123',
+        minZoom: 2,
+        maxZoom: 18
+}).addTo(map); 
+
 </script>
 
   </body>

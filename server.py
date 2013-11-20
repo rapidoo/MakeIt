@@ -52,7 +52,6 @@ def createMarker():
 
 	listObject = []
 	for i in res:
-		print i['quiquoi']
 		listObject.append(i) 
 
 	objet = {}
@@ -67,7 +66,7 @@ def createCompteur():
         dateString="2013-11-19"
         dateDebut = dateString+datenow.strftime(formatString)
 
-        query = {'date_ts': { '$lt': dateDebut}}
+        query = {'date_ts': { '$gt' : dateString, '$lt': dateDebut}}
 
         res = col.find(query).count()
 
@@ -101,7 +100,6 @@ client = MongoClient('mongodb://aladin:aladin@mongo02t.bbo1t.local:27028/perfAla
 db = client.perfAladinDB
 col = db.recherches
 
-bottle.debug(True)
 run(host='bigdata04t.bbo1t.local', port=8080)
 
 

@@ -1,5 +1,5 @@
 
-var delay = 2;
+var delay = 5;
 
 default_series = [
 	{ name: "B2B", data: [0] },
@@ -49,7 +49,6 @@ function update_map() {
         $.get("/api/marker", function(data) {
 		// update last request
 		requests.unshift({ label: data.requete[0].quiquoi + " / " + data.requete[0].ou, service: data.requete[0].service });
-		console.log("results:"+requests.length);
 		requests.pop();
                 $.each(data.requete, function(i, item) {
                     features.push({
@@ -72,7 +71,6 @@ function update_map() {
 };
 
 function update_request() {
-	console.log(requests);
 	$("li").each( function( index, element ) {
 		$(this).text(requests[index].label);
 		if (requests[index].service==14)
@@ -88,7 +86,6 @@ function removeLayer() {
                 map.removeLayer(layer);
                 layers[0].setStyle({ "opacity": 0.15 });
         }
-	console.log("layers:"+layers.length);
 };
 
 function getData() {
