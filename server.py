@@ -42,7 +42,7 @@ def createMarker():
 	datenow = datetime.now()
 	dateplusone = datenow + timedelta(seconds=1)
 	formatString = "T%H:%M:%S"
-	dateString="2013-11-16"
+	dateString="2013-11-19"
 	dateDebut = dateString+datenow.strftime(formatString)
 	dateFin = dateString+dateplusone.strftime(formatString)
 
@@ -52,6 +52,7 @@ def createMarker():
 
 	listObject = []
 	for i in res:
+		print i['quiquoi']
 		listObject.append(i) 
 
 	objet = {}
@@ -63,7 +64,7 @@ def createCompteur():
 
         datenow = datetime.now()
         formatString = "T%H:%M:%S"
-        dateString="2013-11-16"
+        dateString="2013-11-19"
         dateDebut = dateString+datenow.strftime(formatString)
 
         query = {'date_ts': { '$lt': dateDebut}}
@@ -73,7 +74,6 @@ def createCompteur():
 	retour = {}
 	retour['total']=res
 	retour['date']=dateDebut
-	print retour
         return retour
 
 def createVertical():
@@ -81,13 +81,12 @@ def createVertical():
 	datenow = datetime.now()
         dateplusone = datenow + timedelta(seconds=1)
         formatString = "T%H:%M:%S"
-        dateString="2013-11-16"
+        dateString="2013-11-19"
         dateDebut = dateString+datenow.strftime(formatString)
         dateFin = dateString+dateplusone.strftime(formatString)
 
 	query = [{'$match' :{'date_ts': {'$gt': dateDebut, '$lt': dateFin }}} ,{'$group':{'_id':'$verticales', 'count':{'$sum':1}}}]
 
-	print query
 #	db.recherches.aggregate([{$match :{'date_ts': {'$gt': '2013-11-16T15:32:25', '$lt': '2013-11-16T15:32:26'}}} ,{$group:{"_id":"$verticales", "count":{"$sum":1}}}])
 	
         res = col.aggregate(query)

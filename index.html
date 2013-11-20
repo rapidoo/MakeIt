@@ -3,75 +3,8 @@
   <head>
     <meta charset="utf-8">
     <title>GeoLive</title>
-    <style>
-      .leftStyle {
-        display: table-cell;
-        width:400px;
-        height:600px;
-        border:1px;
-      }
-      .rightStyle {
-        display: table-cell;
-        width:800px;
-        height:800px;
-        border:1px;
-      }
-      .chapitre {
-      
-       color: #336699;
-      }
-      .jaunes{
-        background: #FDDB56;
-        width: 350px;
-        height: 20px;
-        font-size: 16px;
-        list-style-type: none; 
-        border-color: white;
-        margin: 5px;
-        padding: 5px;
-        position:relative;
-        left:-35px;
-        color: #333333;
-        font-size: 14px; 
-        font-family: Arial;
-      }
-      .blanc{
-        background: white;
-        width: 350px;
-        height: 20px;
-        font-size: 16px;
-        list-style-type: none; 
-        border-color: white;
-        margin: 5px;
-        padding: 5px;
-        position:relative;
-        left:-35px;
-        color: black;
-        color: #333333;
-        font-size: 14px; 
-        font-family: Arial;
-      }
-      .compteur{
-        font-size: 24px;
-        text-align: center;
-        vertical-align:middle;
-        width: 240px;
-        height: 30px;
-        position:relative;
-        left:30px;
-        color: #4A758B;
-        font-family: Arial;
-        font-size: 24px;
-        font-weight: bold;
-        border:2px solid #4A758B;
-        border-radius: 5px;
-        position:relative;
-        left:75px;
-        padding-top: px;
-
-      }
-    </style>
     <link rel="stylesheet" href="/static/leaflet.css" />
+    <link rel="stylesheet" href="/static/geolive.css" />
     <link rel="stylesheet" href="http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css"type="text/css">
 
     <script src="/static/leaflet.js"></script>
@@ -80,20 +13,9 @@
     
     <script src="http://code.highcharts.com/highcharts.js"></script>
     <script src="http://code.highcharts.com/modules/exporting.js"></script>
-
-
+    <script src="/static/geolive.js"></script>
 
     <script>
-
-//hightchart !
-default_series = [
-                { name: "B2B", data: [0] },
-                { name: "COMMERCE", data: [0] },
-                { name: "MAISON", data: [0] },
-                { name: "PUBLIC", data: [0] },
-                { name: "SERVICE", data: [0] }
-                ];
-
 
 $(function () {
         $('#vertical').highcharts({
@@ -205,7 +127,7 @@ Highcharts.theme = {
    },
    yAxis: {
       alternateGridColor: 'rgba(255, 255, 255, .5)',
-	max:10,
+	max:40,
       lineColor: '#C0D0E0',
       tickColor: '#C0D0E0',
       tickWidth: 1,
@@ -247,25 +169,6 @@ var highchartsOptions = Highcharts.setOptions(Highcharts.theme);
     </script>
 
 <script>
-//$(document).ready(function() {
-function getData() {
-        var chart = $('#vertical').highcharts();
-        //chart.series[1].setData(series_api, true);
-        //series_api = default_series;
-        $.get("/api/vertical", function(data) {
-                $.each(data.result, function(i, data_item) {
-                        $.each(default_series, function(j, series_item) {
-                                if (data_item._id == series_item.name) {
-                                        //console.log("i:" + i);
-                                        //console.log(data_item._id);
-                                        //console.log(data_item.count);
-                                        //console.log("j:" + j);
-                                        chart.series[j].setData([ data.result[i].count ]);
-					}
-                                });
-                        });
-                });
-};
 setInterval(getData, 1000);
 </script>
 
@@ -277,12 +180,12 @@ setInterval(getData, 1000);
       <div class="chapitre"><img src="/static/SoLive.gif"/></div></br>
       <div class="chapitre"><img src="/static/Total.gif"/></br>
 
-         <div class="compteur">029 455 656</div>
+         <div class="compteur"></div>
        </div>  </br>
       <div class="chapitre" id="vertical"><img src="/static/Categories.gif"/></div>  </br>
       <div class="chapitre"><img src="/static/DernieresRech.gif"/>
         
-        <ul>
+        <ul id="requests">
             <li class="jaunes">hotel avec piscine / Rennes</li>
             <li class="jaunes">Darty / Sevres</li>
             <li class="blanc">Jean-Pierre Remy / Colombey-les-Deux-Eglises</li>
@@ -298,65 +201,7 @@ setInterval(getData, 1000);
                  maxZoom: 18,
                  attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://cloudmade.com">CloudMade</a>'
              }).addTo(map);
-                //L.Icon.shadowUrl();
-                layers = [];
-
-  function getData() {
-        var features = [];
-
-
-var geojsonMarkerOptions = {
-    radius: 3,
-    fillColor: "#FF0000",
-    color: "#000",
-    weight: 1,
-    opacity: 1,
-    fillOpacity: 1
-};
-
-        $.get("/api/marker", function(data) {
-                $.each(data.requete, function(i, item) {
-                    features.push({
-                        "type" : "Feature",
-                        "properties" : {
-                                "time": item.date_ts },
-                        "geometry" : {
-                                "type" : "Point",
-                                "coordinates" : [ item.longitude, item.latitude, 1 ] }
-                        });
-                });
-                console.log(features);
-                //return { "type" : "FeatureCollection", "features": features };
-                //var layer = L.geoJson({ "type" : "FeatureCollection", "features": features });
-                var layer = L.geoJson({ "type" : "FeatureCollection", "features": features }, {
-    pointToLayer: function (feature, latlng) {
-        return L.circleMarker(latlng, geojsonMarkerOptions);
-    }});
-                layers.push(layer);
-                layer.addTo(map);
-                //var sliderControl = L.control.sliderControl({position: "topright", layer: testlayer});
-                 //Make sure to add the slider to the map ;-)
-                 //map.addControl(sliderControl);
-                 //An initialize the slider
-                 //sliderControl.startSlider();
-        }, "json" );
-  }
-         </script>
-
-<script>
-$(document).ready(getData());
-var delay = 2;
-setInterval(function() {
-        if (layers.length>delay) {
-                var layer = layers.shift();
-                layer.setStyle({ "opacity": 0.15 });
-                map.removeLayer(layers.shift());
-        }
-        getData(); }, 1000);
-//setInterval(function() { $.each(layers, function(i, layer) { map.removeLayer(layer); layers = []; })}, 000);
 </script>
-
-
 
   </body>
 </html>
