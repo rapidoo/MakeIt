@@ -117,25 +117,22 @@ function initialize() {
 
 google.maps.event.addDomListener(window, 'load', initialize);
 
+	default_series = [
+		{ name: "B2B", data: [0] },
+		{ name: "COMMERCE", data: [0] },
+		{ name: "MAISON", data: [0] },
+		{ name: "PUBLIC", data: [0] },
+		{ name: "SERVICE", data: [0] }
+		];
+
 $(function () {
         $('#vertical').highcharts({
-            chart: {
-                type: 'column'
-            },
-            title: {
-                text: ''            
-            },
-            
-            xAxis: {
-                categories: [
-                    'Verticale'
-                ]
-            },
+            chart: { type: 'column' },
+            title: { text: '' },
+            xAxis: { categories: [ 'Verticale' ] },
             yAxis: {
                 min: 0,
-                title: {
-                    text: 'nb Requetes'
-                }
+                title: { text: 'nb Requetes' }
             },
             tooltip: {
                 headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
@@ -145,39 +142,34 @@ $(function () {
                 shared: true,
                 useHTML: true
             },
-            plotOptions: {
-                column: {
-                    pointPadding: 0.2,
-                    borderWidth: 0
-                }
-            },
-            series: [{
-                name: 'SERVICE',
-                data: [11]
-    
-            }, {
-                name: 'COMMERCE',
-                data: [31]
-    
-            }, {
-                name: 'PUBLIC',
-                data: [20]
-    
-            }, {
-                name: 'MAISON',
-                data: [8]
-    
-            }, {
-                name: 'B2B',
-                data: [16]
-    
-            }]
+            plotOptions: { column: { pointPadding: 0.2, borderWidth: 0 } },
+            series: default_series
         });
     });
-    
-
-
     </script>
+	
+<script>
+//$(document).ready(function() {
+function getData() {
+	var chart = $('#vertical').highcharts();
+	//chart.series[1].setData(series_api, true);
+	//series_api = default_series;
+	$.get("/api/vertical", function(data) {
+		$.each(data.result, function(i, data_item) {
+			$.each(default_series, function(j, series_item) {
+				if (data_item._id == series_item.name) {
+					//console.log("i:" + i);
+					//console.log(data_item._id);
+					//console.log(data_item.count);
+					//console.log("j:" + j);
+					chart.series[j].setData([ data.result[i].count ]);
+					}
+				});
+			});
+		});
+};
+setInterval(getData, 1000);
+</script>
   </head>
   <body>
     
