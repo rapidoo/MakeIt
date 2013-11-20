@@ -17,6 +17,10 @@ def index(filename):
 def server_static(filename):
     return static_file(filename, root='/home/bia/MakeIt/static')
 
+@route('/static/images/<filename>')
+def server_static(filename):
+    return static_file(filename, root='/home/bia/MakeIt/static/images')
+
 
 
 @route('/api/marker')
