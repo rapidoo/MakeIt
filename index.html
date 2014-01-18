@@ -127,7 +127,7 @@ Highcharts.theme = {
    },
    yAxis: {
       alternateGridColor: 'rgba(255, 255, 255, .5)',
-	max:15,
+	max:30,
       lineColor: '#C0D0E0',
       tickColor: '#C0D0E0',
       tickWidth: 1,
@@ -166,7 +166,38 @@ Highcharts.theme = {
 // Apply the theme
 var highchartsOptions = Highcharts.setOptions(Highcharts.theme);
 
+$(function() {
+        // Create the chart
+        chart_pie = new Highcharts.Chart({
+            chart: {
+                renderTo: 'container',
+                type: 'pie'
+            },
+             title: {
+                text: ''
+            },
+            yAxis: {
+                title: {
+                    text: 'Total percent market share'
+                }
+            },
+            plotOptions: {
+                pie: {
+                    shadow: false
+                }
+            },
+            tooltip: {
+                formatter: function() {
+                    return '<b>'+ this.point.name +'</b>: '+ this.y +' %';
+                }
+            },
+            series: default_series_pie
+        });
+    });
+
     </script>
+
+
 
 <script>
 setInterval(getData, 1000);
@@ -180,8 +211,12 @@ setInterval(getData, 1000);
       <div class="chapitre"><img src="/static/SoLive.gif"/></div></br>
       <div class="chapitre"><img src="/static/Total.gif"/></br>
 
-         <div class="compteur"></div>
-       </div>  </br>
+      <div class="compteur"></div>
+      <div id="container" style="min-width: 300px; height: 300px; margin: 0 auto"></div>
+
+    </div>  </br>
+
+     
       <div class="chapitre" id="vertical"><img src="/static/Categories.gif"/></div>  </br>
       <div class="chapitre"><img src="/static/DernieresRech.gif"/>
         
