@@ -17,7 +17,20 @@ default_series_pie = [{
                 showInLegend:true,
                 dataLabels: {
                     enabled: false
-                }
+                }, 
+                startAngle: 180
+            }]
+
+default_single_pie = [{
+                name: 'vertical',
+                data: [["B2B",6],["TOTAL",20]],
+                size: '60%',
+                innerSize: '40%',
+                showInLegend:true,
+                dataLabels: {
+                    enabled: false
+                }, 
+                startAngle: 180
             }]
 
 
@@ -57,6 +70,11 @@ function update_verticale() {
                         $.each(default_series_pie[0].data, function(j, series_item) {
                                 if (data_item._id == series_item.name) {
                                         chart_pie.series[0].data[j].update([ data.result[i].count ]);
+                                }
+                        });
+                         $.each(default_single_pie[0].data, function(j, series_item) {
+                                if (data_item._id == series_item.name) {
+                                        chart_pie_single.series[0].data[j].update([ data.result[i].count ]);
                                 }
                         });
                 });
