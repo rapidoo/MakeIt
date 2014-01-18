@@ -195,6 +195,35 @@ $(function() {
         });
     });
 
+$(function() {
+        // Create the chart
+        chart_pie_single = new Highcharts.Chart({
+            chart: {
+                renderTo: 'container_single',
+                type: 'pie'
+            },
+             title: {
+                text: ''
+            },
+            yAxis: {
+                title: {
+                    text: 'Total percent market share'
+                }
+            },
+            plotOptions: {
+                pie: {
+                    shadow: false
+                }
+            },
+            tooltip: {
+                formatter: function() {
+                    return '<b>'+ this.point.name +'</b>: '+ this.y +' %';
+                }
+            },
+            series: default_single_pie
+        });
+    });
+
     </script>
 
 
@@ -213,6 +242,7 @@ setInterval(getData, 1000);
 
       <div class="compteur"></div>
       <div id="container" style="min-width: 300px; height: 300px; margin: 0 auto"></div>
+<div id="container_single" style="min-width: 300px; height: 300px; margin: 0 auto"></div>
 
     </div>  </br>
 
