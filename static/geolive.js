@@ -9,6 +9,18 @@ default_series = [
 	{ name: "SERVICE", data: [0] }
 ];
 
+default_series_pie = [{
+                name: 'vertical',
+                data: [["B2B",6],["COMMERCE",4],["MAISON",7],["PUBLIC",5], ["SERVICE", 4]],
+                size: '60%',
+                innerSize: '40%',
+                showInLegend:true,
+                dataLabels: {
+                    enabled: false
+                }
+            }]
+
+
 var layers = [];
 var requests = [ { label: "", service: 1 },
 		 { label: "", service: 1 },
@@ -40,6 +52,11 @@ function update_verticale() {
                         $.each(default_series, function(j, series_item) {
                                 if (data_item._id == series_item.name) {
                                         chart.series[j].data[0].update([ data.result[i].count ]);
+                                }
+                        });
+                        $.each(default_series_pie[0].data, function(j, series_item) {
+                                if (data_item._id == series_item.name) {
+                                        chart_pie.series[0].data[j].update([ data.result[i].count ]);
                                 }
                         });
                 });
