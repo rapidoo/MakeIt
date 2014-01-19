@@ -128,6 +128,7 @@ function update_map() {
 		//var marker = L.marker([popupAttr.lat, popupAttr.lng], {icon: divIcon});
 		marker = L.popup( {autoPan:false}).setLatLng([popupAttr.lat, popupAttr.lng]).setContent(popupAttr.label);
                 layers.push(marker);
+               // LineMarker(popupAttr, geojsonMarkerOptions).addTo(map)
                 marker.addTo(map);
 	}, "json" );
 };
@@ -144,6 +145,20 @@ function SquareMarker(latlng, geojsonMarkerOptions) {
 
 	return polygon
 }
+
+function LineMarker(latlng, geojsonMarkerOptions) {
+
+	var delta=0.1;
+	var polygon = L.polygon([
+    [latlng.lat, latlng.lng],
+    [latlng.lat+(delta*3), latlng.lng],
+    [latlng.lat, latlng.lng]],
+    geojsonMarkerOptions);
+
+	return polygon
+}
+
+
 
 function update_request() {
 	$("li").each( function( index, element ) {

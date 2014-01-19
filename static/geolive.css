@@ -68,15 +68,22 @@
 	.popup{
 		/* background: white;*/
 		border:1px solid #4A758B;
-		 height: 30px;
-		 width: 1500px;
+		height: 30px;
+		width: 1500px;
 		/*-- margin: 13px 19px;
 		-- opacity: 0.30; */
 	}
 .leaflet-popup-content-wrapper {
 	background-color: transparent;
+    position:relative;
+    left:25px;
 }
 .leaflet-popup-tip{
 	background-color: transparent;
 }
+.leaflet-popup-content {
+    margin: 5px 0px;
+    line-height: 1.4;
+    text-align: left;
+    }
 
