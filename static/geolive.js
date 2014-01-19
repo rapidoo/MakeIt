@@ -126,20 +126,20 @@ function update_map() {
                 layer.addTo(map);
 		//var divIcon = L.divIcon({className: "popup", html: popupAttr.label});
 		//var marker = L.marker([popupAttr.lat, popupAttr.lng], {icon: divIcon});
-		marker = L.popup().setLatLng([popupAttr.lat, popupAttr.lng]).setContent(popupAttr.label);
+		marker = L.popup( {autoPan:false}).setLatLng([popupAttr.lat, popupAttr.lng]).setContent(popupAttr.label);
                 layers.push(marker);
-               // marker.addTo(map);
+                marker.addTo(map);
 	}, "json" );
 };
 
 function SquareMarker(latlng, geojsonMarkerOptions) {
 
-	var delta=0.05;
+	var delta=0.1;
 	var polygon = L.polygon([
-    [latlng.lat-delta, latlng.lng+delta],
-    [latlng.lat+delta, latlng.lng+delta],
-    [latlng.lat+delta, latlng.lng-delta],
-    [latlng.lat-delta, latlng.lng-delta]],
+    [latlng.lat, latlng.lng],
+    [latlng.lat, latlng.lng+(delta)],
+    [latlng.lat+(delta/1.4), latlng.lng+(delta)],
+    [latlng.lat+(delta/1.4), latlng.lng]],
     geojsonMarkerOptions);
 
 	return polygon
