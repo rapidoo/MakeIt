@@ -120,7 +120,7 @@ function update_map() {
                 var layer = L.geoJson(
 			{ "type" : "FeatureCollection", "features": features },
 			{ pointToLayer: function (feature, latlng) {
-				return L.circleMarker(latlng, geojsonMarkerOptions);
+				return SquareMarker(latlng, geojsonMarkerOptions);
 			}});
                 layers.push(layer);
                 layer.addTo(map);
@@ -128,9 +128,22 @@ function update_map() {
 		//var marker = L.marker([popupAttr.lat, popupAttr.lng], {icon: divIcon});
 		marker = L.popup().setLatLng([popupAttr.lat, popupAttr.lng]).setContent(popupAttr.label);
                 layers.push(marker);
-                marker.addTo(map);
+               // marker.addTo(map);
 	}, "json" );
 };
+
+function SquareMarker(latlng, geojsonMarkerOptions) {
+
+	var delta=0.05;
+	var polygon = L.polygon([
+    [latlng.lat-delta, latlng.lng+delta],
+    [latlng.lat+delta, latlng.lng+delta],
+    [latlng.lat+delta, latlng.lng-delta],
+    [latlng.lat-delta, latlng.lng-delta]],
+    geojsonMarkerOptions);
+
+	return polygon
+}
 
 function update_request() {
 	$("li").each( function( index, element ) {
