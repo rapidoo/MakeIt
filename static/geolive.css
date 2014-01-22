@@ -87,3 +87,8 @@
     text-align: left;
     }
 
+.divCompteur { 
+	width:45px; 
+	height: 45px; 
+	margin: 0px;
+}
