@@ -18,47 +18,33 @@
     <script>
 
 $(function () {
-        $('#vertical').highcharts({
+            // Create the chart
+        chart_pie_single = new Highcharts.Chart({
             chart: {
-                type: 'column',
-	   	chart: {
-            		animation: {
-                		duration: 1000,
-                		easing: 'swing'
-            		}
-        	}
+                renderTo: 'container_single',
+                type: 'pie'
             },
-            title: {
-                text: ''            
-            },
-            
-            xAxis: {
-                categories: [
-                    'Verticale'
-                ]
+             title: {
+                text: ''
             },
             yAxis: {
-                min: 0,
                 title: {
-                    text: 'nb Requetes'
+                    text: 'Total percent market share'
+                }
+            },
+            plotOptions: {
+                pie: {
+                    shadow: false
                 }
             },
             tooltip: {
-                headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
-                pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-                    '<td style="padding:0"><b>{point.y:.1f}</b></td></tr>',
-                footerFormat: '</table>',
-                shared: true,
-                useHTML: true
-            },
-            plotOptions: {
-                column: {
-                    pointPadding: 0.2,
-                    borderWidth: 0
+                formatter: function() {
+                    return '<b>'+ this.point.name +'</b>: '+ this.y +' %';
                 }
             },
-            series: default_series 
-        });
+            series: default_single_pie
+
+	});
     });
     
 Highcharts.theme = {
@@ -166,63 +152,6 @@ Highcharts.theme = {
 // Apply the theme
 var highchartsOptions = Highcharts.setOptions(Highcharts.theme);
 
-$(function() {
-        // Create the chart
-        chart_pie = new Highcharts.Chart({
-            chart: {
-                renderTo: 'container',
-                type: 'pie'
-            },
-             title: {
-                text: ''
-            },
-            yAxis: {
-                title: {
-                    text: 'Total percent market share'
-                }
-            },
-            plotOptions: {
-                pie: {
-                    shadow: false
-                }
-            },
-            tooltip: {
-                formatter: function() {
-                    return '<b>'+ this.point.name +'</b>: '+ this.y +' %';
-                }
-            },
-            series: default_series_pie
-        });
-    });
-
-$(function() {
-        // Create the chart
-        chart_pie_single = new Highcharts.Chart({
-            chart: {
-                renderTo: 'container_single',
-                type: 'pie'
-            },
-             title: {
-                text: ''
-            },
-            yAxis: {
-                title: {
-                    text: 'Total percent market share'
-                }
-            },
-            plotOptions: {
-                pie: {
-                    shadow: false
-                }
-            },
-            tooltip: {
-                formatter: function() {
-                    return '<b>'+ this.point.name +'</b>: '+ this.y +' %';
-                }
-            },
-            series: default_single_pie
-        });
-    });
 
     </script>
 
@@ -241,13 +170,11 @@ setInterval(getData, 1000);
       <div class="chapitre"><img src="/static/Total.gif"/></br>
 
       <div class="compteur"></div>
-      <div id="container" style="min-width: 300px; height: 300px; margin: 0 auto"></div>
-<div id="container_single" style="min-width: 300px; height: 300px; margin: 0 auto"></div>
+	<div id="container_single" style="width:200px; height: 200px; margin: 0px"></div>
 
     </div>  </br>
 
      
-      <div class="chapitre" id="vertical"><img src="/static/Categories.gif"/></div>  </br>
       <div class="chapitre"><img src="/static/DernieresRech.gif"/>
         
         <ul id="requests">

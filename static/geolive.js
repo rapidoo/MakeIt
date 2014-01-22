@@ -57,29 +57,19 @@ function update_compteur() {
 };
 
 function update_verticale() {
-        var chart = $('#vertical').highcharts();
         $.get("/api/vertical", function(data) {
-		// reset empty id
-                // $.each(default_series, function(j, series_item) { chart.series[j].data[0].update([ 0 ]); });
-                $.each(data.result, function(i, data_item) {
-                        $.each(default_series, function(j, series_item) {
-                                if (data_item._id == series_item.name) {
-                                        chart.series[j].data[0].update([ data.result[i].count ]);
-                                }
-                        });
-                        $.each(default_series_pie[0].data, function(j, series_item) {
-                                if (data_item._id == series_item.name) {
-                                        chart_pie.series[0].data[j].update([ data.result[i].count ]);
-                                }
-                        });
-                         $.each(default_single_pie[0].data, function(j, series_item) {
-                                if (data_item._id == series_item.name) {
-                                        chart_pie_single.series[0].data[j].update([ data.result[i].count ]);
-                                }
-                        });
-                });
-        });
+	     $.each(data.result, function(i, data_item) {
+        	$.each(default_single_pie[0].data, function(j, series_item) {
+                	if (data_item._id == series_item.name) {
+                        	chart_pie_single.series[0].data[j].update([ data.result[i].count ]);
+                        }
+	                });
+        	});
+	});
 };
+
+
+
 
 function update_map() {
         var features = [];
