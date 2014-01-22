@@ -23,7 +23,7 @@ $(function () {
             chart: {
                 renderTo: 'container_single',
                 type: 'pie',
-
+		backgroundColor:  null,
 		// Edit chart spacing
 	        spacingBottom: 0,
         	spacingTop: 0,
@@ -68,7 +68,7 @@ margin: [ 0, 0, 0, 0]
     });
     
 Highcharts.theme = {
-  colors: ['#CDDDE8', '#4A768B', '#99B0BF', '#FDDB56', '#000000'],
+  colors: ['#000000', '#FFFFFF', '#99B0BF', '#FDDB56', '#000000'],
 
    chart: {
       //className: 'skies',
@@ -198,7 +198,7 @@ setInterval(getData, 1000);
       <div class="chapitre"><img src="/static/Total.gif"/></br>
 
       <div class="compteur"></div>
-<div>	<div id="container_single" style="width:130px; height: 130px; margin: 0px"></div>
+<div style="background-color:green">	<div id="container_single" style="width:130px; height: 130px; margin: 0px"></div>
 	<div id="div_single" class="divCompteur">1245</div>
 </div>
 

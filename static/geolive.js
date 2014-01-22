@@ -1,5 +1,6 @@
 
 var delay = 5;
+//Obsolet
 
 default_series = [
 	{ name: "B2B", data: [0] },
@@ -20,6 +21,7 @@ default_series_pie = [{
                 }, 
                 startAngle: 180
             }]
+//fin obsolete
 
 default_single_pie = [{
                 name: 'vertical',
