@@ -12,8 +12,8 @@ default_series = [
 default_series_pie = [{
                 name: 'vertical',
                 data: [["B2B",6],["COMMERCE",4],["MAISON",7],["PUBLIC",5], ["SERVICE", 4]],
-                size: '60%',
-                innerSize: '40%',
+                size: '100%',
+                innerSize: '60%',
                 showInLegend:true,
                 dataLabels: {
                     enabled: false
@@ -24,8 +24,8 @@ default_series_pie = [{
 default_single_pie = [{
                 name: 'vertical',
                 data: [["B2B",6],["TOTAL",20]],
-                size: '60%',
-                innerSize: '40%',
+                size: '100%',
+                innerSize: '80%',
                 showInLegend:true,
                 dataLabels: {
                     enabled: false
