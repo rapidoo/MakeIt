@@ -263,7 +263,8 @@ setInterval(getData, 1000);
 <script type="text/javascript">
              map = L.map('map').setView([46, 3],6);
  //var Acetate_terrain = L.tileLayer('http://a{s}.acetate.geoiq.com/tiles/terrain/{z}/{x}/{y}.png', {
- var Acetate_terrain = L.tileLayer('http://a.tiles.mapbox.com/v3/rapidoo.h299kl5n/{z}/{x}/{y}.png', {
+// var Acetate_terrain = L.tileLayer('http://a.tiles.mapbox.com/v3/rapidoo.h299kl5n/{z}/{x}/{y}.png', {
+ var Acetate_terrain = L.tileLayer('/tiles/{z}/{x}/{y}.png', {
         attribution: '',
         subdomains: '0123',
         minZoom: 2,
